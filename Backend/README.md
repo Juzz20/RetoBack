@@ -1,59 +1,92 @@
-## Reto de Automatización QA - BackEnd
+# Reto de Automatización QA - ServeRest
 
-Este proyecto tiene como objetivo automatizar las pruebas de una API de usuarios utilizando Karate DSL. A continuación se detallan los pasos para la configuración del proyecto, estructura, y cómo se han implementado las pruebas para cada uno de los endpoints de la API. Las pruebas serán realizadas para la API de Usuarios de ServeRest (https://serverest.dev/)
+## Descripción
 
-### Requisitos
-- Java 8 o superior.
-- Karate DSL: Se utilizará Karate para la automatización de las pruebas.
-- Maven para la gestión de dependencias.
-- API de usuarios disponible para pruebas.
+Proyecto de automatización de pruebas API desarrollado con **Karate DSL** para validar los endpoints de usuarios de la API **ServeRest**.
 
-### Instalación
-###### 1. Clonar el repositorio
-Primero, clonar el repositorio en tu máquina local:
+El proyecto incluye escenarios positivos y negativos para las operaciones principales de usuarios.
 
-`git clone  https://github.com/BryanMiyagui/Proyecto-Backend.git`
+## Tecnologías utilizadas
 
-###### 2. Configurar el proyecto
-Instalar las dependencias Maven
+* Java 17
+* Maven
+* Karate DSL
+* JUnit 5
+* IntelliJ IDEA
 
-### Estructura del Proyecto
-La estructura del proyecto es la siguiente:
+## Endpoints automatizados
 
-- src/main/test/java/REST/: Carpeta donde se encuentran los archivos de características (.feature).
+| Método | Endpoint          | Validaciones                                     |
+| ------ | ----------------- | ------------------------------------------------ |
+| GET    | `/usuarios`       | Consulta de usuarios y estructura de respuesta   |
+| GET    | `/usuarios/{_id}` | Consulta de usuario existente y caso negativo    |
+| POST   | `/usuarios`       | Registro exitoso y validación de email duplicado |
+| PUT    | `/usuarios/{_id}` | Actualización de usuario                         |
+| DELETE | `/usuarios/{_id}` | Eliminación de usuario y validación de respuesta |
 
-- - user-delete.feature: Prueba para eliminar un usuario.
+## Estructura del proyecto
 
-- - user-get.feature: Prueba para listar todos los usuarios.
+```text
+Backend/
+├── src/
+│   └── test/
+│       ├── java/
+│       │   └── karateRunner.java
+│       └── resources/
+│           └── REST/
+│               ├── get.feature
+│               ├── getid.feature
+│               ├── user-post.feature
+│               ├── user-put.feature
+│               └── user-delete.feature
+├── pom.xml
+└── README.md
+```
 
-- - user-getID.feature: Prueba para buscar un usuario por ID.
+## Requisitos
 
-- - user-post.feature: Prueba para registrar un nuevo usuario.
+* Java JDK 17 o superior
+* Maven 3.9.x o superior
 
-- - user-put.feature: Prueba para actualizar los datos de un usuario.
+Verificar la instalación:
 
-### Validaciones
+```bash
+java -version
+mvn -version
+```
 
-Cada prueba valida que:
+## Ejecución de las pruebas
 
-- Las respuestas tengan el formato correcto (JSON).
-- El código de estado HTTP sea el esperado.
-- Los valores en la respuesta sean los correctos.
+Desde la carpeta raíz del proyecto ejecutar:
 
-### Ejecución de las Pruebas
-El proyecto está configurado para ejecutar las pruebas utilizando un runner en Java. La clase karateRunner.java contiene el siguiente código para ejecutar las pruebas:
+```bash
+mvn test
+```
 
+También es posible ejecutar las pruebas desde IntelliJ IDEA mediante la clase:
 
+```text
+karateRunner.java
+```
 
-    import com.intuit.karate.junit5.Karate;
-    
-    public class karateRunner {
-    
-        @Karate.Test
-        Karate testSample() {
-            return Karate.run("classpath:REST");
-        }
-    }
+## Validaciones realizadas
 
-###### Explicación:
-Karate.run("classpath:REST"): Aquí se especifica la ruta del archivo .feature o de la carpeta que contiene las pruebas de Karate. Por ejemplo, si deseas ejecutar el archivo user-get.feature en específico, la ruta sería "classpath:REST/user-get.feature".
+Las pruebas incluyen:
+
+* Validación de códigos HTTP.
+* Validación de estructura de respuestas JSON.
+* Validación mediante JSON Matchers de Karate.
+* Escenarios positivos.
+* Escenarios negativos.
+* Validación de respuestas de error.
+* Pruebas CRUD sobre usuarios.
+
+## Reportes
+
+Al finalizar la ejecución, Karate genera los reportes de ejecución automáticamente en la carpeta:
+
+```text
+target/karate-reports/
+```
+
+Proyecto desarrollado como parte del reto de automatización QA.
